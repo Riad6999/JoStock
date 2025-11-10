@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Item | JoStock</title>
   <style>
     body {
@@ -44,11 +44,13 @@
       text-align: center;
       margin-top: 12px;
       font-size: 14px;
+      font-weight: 500;
     }
   </style>
 </head>
 <body>
   <h2>➕ Add New Sauce Item</h2>
+
   <form id="itemForm">
     <input id="name" placeholder="Name (e.g. Tomato Ketchup)" required />
     <input id="category" placeholder="Category (e.g. Sauce)" />
@@ -57,22 +59,28 @@
     <input id="lowLimit" type="number" placeholder="Low limit (e.g. 5)" required />
     <button type="submit">Add Item</button>
   </form>
+
   <div class="msg" id="msg"></div>
 
+  <!-- important: config.js must load first -->
   <script src="config.js"></script>
+
   <script>
     const form = document.getElementById("itemForm");
     const msg = document.getElementById("msg");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      msg.style.color = "#555";
       msg.textContent = "⏳ Adding item...";
+
       const payload = {
-        name: name.value.trim(),
-        category: category.value.trim(),
-        unit: unit.value.trim(),
-        stock: Number(stock.value),
-        lowLimit: Number(lowLimit.value)
+        name: document.getElementById("name").value.trim(),
+        category: document.getElementById("category").value.trim(),
+        unit: document.getElementById("unit").value.trim(),
+        stock: Number(document.getElementById("stock").value),
+        lowLimit: Number(document.getElementById("lowLimit").value)
       };
 
       try {
@@ -81,11 +89,19 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        msg.textContent = "✅ Item added successfully!";
-        form.reset();
+
+        if (res.ok) {
+          msg.style.color = "green";
+          msg.textContent = "✅ Item added successfully!";
+          form.reset();
+        } else {
+          const errText = await res.text();
+          msg.style.color = "red";
+          msg.textContent = `❌ Failed (${res.status}): ${errText}`;
+        }
       } catch (err) {
-        console.error(err);
+        console.error("Add item error:", err);
+        msg.style.color = "red";
         msg.textContent = "❌ Failed to add item. Check backend URL or network.";
       }
     });
