@@ -1,27 +1,96 @@
+<!-- frontend/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JoStock | Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JoStock | Sauce Inventory</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <h1>🍅 JoStock Dashboard</h1>
-    <nav>
-      <a href="index.html">Dashboard</a>
-      <a href="stock.html">Stock</a>
-      <a href="log.html">Logs</a>
-      <a href="analytics.html">Analytics</a>
+  <header class="navbar">
+    <div class="logo">🧂 JoStock</div>
+    <nav class="nav-links">
+      <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="nav-btn" data-tab="stock">Stock</button>
+      <button class="nav-btn" data-tab="logs">Logs</button>
+      <button class="nav-btn" data-tab="analytics">Analytics</button>
     </nav>
+    <div class="nav-time" id="nav-time"></div>
   </header>
 
-  <main id="dashboard">
-    <h2>Inventory Overview</h2>
-    <div id="cards" class="grid"></div>
+  <main>
+    <!-- Global error / info -->
+    <div id="global-message" class="global-message hidden"></div>
+
+    <!-- DASHBOARD -->
+    <section id="tab-dashboard" class="tab active">
+      <h2>Today’s Overview</h2>
+      <div class="cards-row" id="dashboard-cards">
+        <!-- summary cards -->
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Today’s Activity (Sample)</h3>
+          <span class="badge">Logs feature coming later</span>
+        </div>
+        <p class="muted">
+          Real log/algorithm part pore add korbo. Ekhon dashboard sudhu stock data diye summary dekhache.
+        </p>
+      </div>
+    </section>
+
+    <!-- STOCK -->
+    <section id="tab-stock" class="tab">
+      <div class="panel-header">
+        <h2>All Items</h2>
+      </div>
+
+      <div class="toolbar">
+        <input id="stock-search" type="text" placeholder="Search by name..." />
+        <select id="stock-filter">
+          <option value="all">All</option>
+          <option value="low">Low stock</option>
+          <option value="ok">OK</option>
+        </select>
+      </div>
+
+      <div id="stock-grid" class="cards-grid">
+        <!-- item cards -->
+      </div>
+    </section>
+
+    <!-- LOGS (placeholder for now) -->
+    <section id="tab-logs" class="tab">
+      <h2>Logs</h2>
+      <p class="muted">
+        Ekhon sudhu basic items API ache. Pore jodi tui chash, ami <b>/api/logs</b> banai full log system add kore dibo.
+      </p>
+      <p class="muted">
+        Right now, use Dashboard + Stock section for real data; Logs & Analytics holo design-ready placeholder.
+      </p>
+    </section>
+
+    <!-- ANALYTICS (client-side sample) -->
+    <section id="tab-analytics" class="tab">
+      <h2>Analytics (Simple)</h2>
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Stock Status Summary</h3>
+        </div>
+        <ul id="analytics-list" class="analytics-list">
+          <!-- filled from JS based on items -->
+        </ul>
+      </div>
+    </section>
   </main>
 
+  <footer>
+    <p>© 2025 JoStock · Built for MD RIAD</p>
+  </footer>
+
+  <!-- Order important: config first, then app -->
   <script src="config.js"></script>
   <script src="js/app.js"></script>
 </body>
